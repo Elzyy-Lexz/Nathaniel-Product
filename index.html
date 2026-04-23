@@ -2,212 +2,300 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nathaniel Store</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <title>Nael Store | Full Services</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; }
+    :root {
+      --wa-dark: #0b141a;
+      --hologram-blue: #00d2ff;
+      --wa-green: #25d366;
+      --glass: rgba(255, 255, 255, 0.05);
+      --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body {
       margin: 0;
-      font-family: 'Roboto', sans-serif;
-      background: linear-gradient(to bottom right, #eef2f3, #c9d6ff);
-      color: #333;
-      animation: fadeIn 1s ease-in-out;
+      font-family: 'Rajdhani', sans-serif;
+      background-color: var(--wa-dark);
+      color: #e9edef;
+      overflow-x: hidden;
+      height: 100vh;
+      display: flex; flex-direction: column;
     }
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
+
+    #splash {
+      position: fixed; inset: 0; background: var(--wa-dark);
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      z-index: 5000; transition: var(--transition);
     }
-    header {
-      background: linear-gradient(to right, #667eea, #764ba2);
-      color: white;
-      text-align: center;
-      padding: 2rem 1rem;
-      border-radius: 0 0 30px 30px;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+
+    .logo-glow {
+      width: 100px; height: 100px; border: 2px solid var(--hologram-blue);
+      border-radius: 50%; display: flex; justify-content: center; align-items: center;
+      font-family: 'Orbitron'; font-size: 2.5rem; color: var(--hologram-blue);
+      box-shadow: 0 0 30px rgba(0, 210, 255, 0.3); margin-bottom: 25px;
+      animation: float 3s infinite ease-in-out;
     }
-    header h1 {
-      margin: 0;
-      font-size: 2.2rem;
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
     }
-    nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin: 1rem;
+
+    #app { display: none; opacity: 0; height: 100%; flex-direction: column; transition: var(--transition); }
+
+    .header-nael {
+      background: #202c33; padding: 20px 20px 10px; border-bottom: 1px solid rgba(0, 210, 255, 0.2);
     }
-    .nav-btn {
-      padding: 0.7rem 1.5rem;
-      background: white;
-      border: 2px solid #764ba2;
-      color: #764ba2;
-      font-weight: bold;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+
+    .header-nael h1 {
+      margin: 0; font-family: 'Orbitron'; font-size: 1.3rem;
+      background: linear-gradient(to right, #fff, var(--hologram-blue));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-    .nav-btn:hover {
-      background: #764ba2;
-      color: white;
+
+    .nav-scroll {
+      display: flex; overflow-x: auto; gap: 20px; margin-top: 15px; scrollbar-width: none;
     }
-    .section {
-      padding: 1rem 1.5rem;
+    .nav-scroll::-webkit-scrollbar { display: none; }
+
+    .nav-tab {
+      padding: 10px 20px; white-space: nowrap; color: #8696a0;
+      font-weight: 700; font-size: 0.8rem; text-transform: uppercase;
+      cursor: pointer; border-bottom: 3px solid transparent; transition: 0.3s;
     }
-    .category {
-      font-size: 1.4rem;
-      margin: 1rem 0;
-      color: #764ba2;
+    .nav-tab.active { color: var(--hologram-blue); border-bottom-color: var(--hologram-blue); }
+
+    #view-port { flex: 1; overflow: hidden; position: relative; }
+
+    #product-slider {
+      display: flex; height: 100%; transition: transform 0.4s ease-out;
+      will-change: transform;
     }
-    .product {
-      background: rgba(255,255,255,0.95);
-      border-radius: 15px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      transition: transform 0.3s;
+
+    .product-page {
+      min-width: 100%; height: 100%; overflow-y: auto; padding: 10px 0 150px;
+      scrollbar-width: none;
     }
-    .product:hover {
-      transform: scale(1.02);
+
+    .item-card {
+      display: flex; padding: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      align-items: center; cursor: pointer;
     }
-    .product-title {
-      font-size: 1rem;
-      font-weight: bold;
+
+    .item-icon {
+      width: 50px; height: 50px; background: var(--glass);
+      border: 1px solid rgba(0, 210, 255, 0.3); border-radius: 12px;
+      margin-right: 15px; display: flex; justify-content: center; align-items: center;
+      font-family: 'Orbitron'; color: var(--hologram-blue);
     }
-    .price {
-      color: #e74c3c;
-      font-weight: bold;
-      margin-top: 0.3rem;
+
+    .item-info { flex: 1; }
+    .item-name { display: block; font-weight: 600; font-size: 1.05rem; color: #fff; }
+    .item-price { font-family: 'Orbitron'; color: var(--hologram-blue); font-size: 0.75rem; margin-top: 3px; }
+
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(17, 27, 33, 0.95); backdrop-filter: blur(15px);
+      display: flex; justify-content: space-around; padding: 15px 10px;
+      border-top: 1px solid var(--hologram-blue); z-index: 4000;
     }
-    .buy-btn {
-      margin-top: 0.5rem;
-      background: #667eea;
-      color: white;
-      border: none;
-      padding: 0.4rem 1rem;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.2s;
+
+    .nav-item {
+      text-decoration: none; display: flex; flex-direction: column;
+      align-items: center; gap: 5px; color: #8696a0;
     }
-    .buy-btn:hover {
-      background: #5a67d8;
+    .nav-item svg { width: 22px; height: 22px; fill: currentColor; }
+    .nav-item span { font-family: 'Orbitron'; font-size: 0.6rem; font-weight: 700; letter-spacing: 1px; }
+
+    .sheet {
+      position: fixed; bottom: -100%; left: 0; right: 0;
+      background: #111b21; border-radius: 20px 20px 0 0;
+      padding: 25px; z-index: 4500; transition: var(--transition);
+      border-top: 1px solid var(--hologram-blue);
     }
-    .pagination {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-top: 1rem;
+    .sheet.active { bottom: 0; }
+
+    .btn-action {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 14px; margin-bottom: 10px; border-radius: 10px;
+      text-decoration: none; font-family: 'Orbitron'; font-weight: 700; font-size: 0.75rem;
     }
-    .page-btn {
-      padding: 0.5rem 1rem;
-      border: 1px solid #764ba2;
-      border-radius: 5px;
-      background: white;
-      color: #764ba2;
-      cursor: pointer;
-    }
-    .page-btn.active {
-      background: #764ba2;
-      color: white;
-    }
-    footer {
-      background: #f2f2f2;
-      padding: 1rem;
-      text-align: center;
-      font-size: 0.9rem;
-      margin-top: 2rem;
-      border-top: 1px solid #ddd;
-    }
+    .btn-action.wa { background: var(--wa-green); color: #000; }
+    .btn-action svg { width: 18px; height: 18px; fill: currentColor; }
+
   </style>
 </head>
 <body>
-  <header>
-    <h1>Nathaniel Store</h1>
-    <p>Solusi Ekonomi Digital Anda dengan Sentuhan Teknologi</p>
-  </header>
-  <nav>
-    <button class="nav-btn" onclick="showPage('premium')">Aplikasi Premium</button>
-    <button class="nav-btn" onclick="showPage('suntik')">Suntik Sosmed</button>
-    <button class="nav-btn" onclick="showPage('banned')">Jasa Banned WA</button>
-    <button class="nav-btn" onclick="showPage('topup')">Top Up Game</button>
+
+<div id="splash" onclick="openApp()">
+  <div class="logo-glow">N</div>
+  <h2 style="font-family:'Orbitron'; color:white; letter-spacing:5px;">NAEL STORE</h2>
+  <p style="opacity:0.5; font-size:0.7rem; letter-spacing:2px;">SWIPE TO BROWSE</p>
+</div>
+
+<div id="app">
+  <div class="header-nael">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h1>Nael Store</h1>
+      <span style="color:var(--hologram-blue); font-size:0.7rem; letter-spacing:1px;">SOCIAL UPDATE</span>
+    </div>
+    <div class="nav-scroll" id="tab-container"></div>
+  </div>
+
+  <div id="view-port">
+    <div id="product-slider"></div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="https://whatsapp.com/channel/0029Vb97PlOLdQekscfUxz3Z" target="_blank" class="nav-item">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .018 5.393 0 12.03c0 2.123.554 4.197 1.607 6.04L0 24l6.117-1.605a11.77 11.77 0 005.925 1.585h.005c6.637 0 12.032-5.391 12.036-12.028a11.817 11.817 0 00-3.417-8.434z"/></svg>
+      <span>WHATSAPP</span>
+    </a>
+    <a href="https://t.me/nthnl999" target="_blank" class="nav-item">
+      <svg viewBox="0 0 24 24"><path d="M11.944 0C5.346 0 0 5.346 0 11.944c0 6.598 5.346 11.944 11.944 11.944 6.598 0 11.944-5.346 11.944-11.944C23.888 5.346 18.542 0 11.944 0zm5.206 8.19c-.176 1.85-.92 6.22-1.3 8.24-.16.85-.473 1.135-.776 1.163-.66.06-1.16-.438-1.8-.857-1-.657-1.564-1.068-2.526-1.702-1.112-.733-.39-1.136.242-1.795.166-.173 3.056-2.798 3.112-3.037.007-.03.012-.14-.055-.2-.066-.06-.164-.04-.234-.023-.1.023-1.69 1.074-4.767 3.15-.45.31-.857.462-1.22.453-.4-.008-1.17-.22-1.742-.405-.702-.227-1.26-.348-1.21-.735.025-.2.27-.405.735-.615 2.872-1.25 4.787-2.073 5.746-2.47 2.74-1.135 3.31-1.33 3.682-1.33.08 0 .265.02.383.12.1.08.128.19.135.266.007.076.012.228 0 .34z"/></svg>
+      <span>TELEGRAM</span>
+    </a>
   </nav>
-  <div class="section" id="content"></div>
-  <footer>
-    © 2025 Nathaniel. Presisi Digital, Harga Bersahabat.
-  </footer>
-  <script>
-    const content = document.getElementById('content');
-    const itemsPerPage = 6;
-    let currentPage = 1;const dataMap = {
-  premium: [
-    { name: "Alight Motion Premium 1 Tahun (Sharing)", price: "8K" },
-    { name: "Alight Motion Premium 1 Tahun (Private)", price: "15K" },
-    { name: "CapCut Premium 1 Bulan", price: "12K" },
-    { name: "CapCut Premium 1 Tahun", price: "20K" },
-    { name: "CapCut Premium 2 Tahun", price: "43K" },
-    { name: "Spotify Premium 2 Bulan", price: "30K" },
-    { name: "Spotify Premium 5 Bulan", price: "55K" },
-    { name: "Netflix Premium 1 Bulan (1p1u)", price: "30K" },
-    { name: "Netflix Premium 1 Bulan (1p2u)", price: "26K" },
-    { name: "YouTube Premium 1 Bulan", price: "7K" },
-    { name: "YouTube Premium 2 Bulan", price: "12K" },
-    { name: "YouTube Premium 1 Tahun", price: "34K" },
-    { name: "YouTube Premium 2 Tahun", price: "37K" },
+</div>
+
+<div id="detail-sheet" class="sheet">
+  <h2 id="m-name" style="margin:0 0 15px; color:var(--hologram-blue); font-family:'Orbitron'; font-size: 1rem;"></h2>
+  <div id="m-desc-box" style="margin-bottom: 25px;"></div>
+  <a id="m-wa" href="#" target="_blank" class="btn-action wa">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .018 5.393 0 12.03c0 2.123.554 4.197 1.607 6.04L0 24l6.117-1.605a11.77 11.77 0 005.925 1.585h.005c6.637 0 12.032-5.391 12.036-12.028a11.817 11.817 0 00-3.417-8.434z"/></svg>
+    PESAN SEKARANG
+  </a>
+  <button onclick="closeSheet()" style="width:100%; background:transparent; border:none; color:#ff3b30; margin-top:10px; cursor:pointer; font-weight:700; font-family:'Orbitron'; font-size: 0.7rem;">BATAL</button>
+</div>
+
+<script>
+const waNo = "6285855379144";
+let currentIndex = 0;
+let startX = 0;
+
+const allProducts = {
+  sosmed: [
+    { name: "100 Followers IG", price: "Rp4.000" },
+    { name: "300 Followers IG", price: "Rp11.000" },
+    { name: "1000 Followers IG", price: "Rp28.000" },
+    { name: "5000 Followers IG", price: "Rp130.000" },
+    { name: "1000 Like TikTok", price: "Rp25.000" },
+    { name: "500 Share TikTok", price: "Rp12.000" },
+    { name: "1000 View TikTok", price: "Rp5.000" },
+    { name: "1000 SUB YouTube", price: "Rp102.000" },
+    { name: "1000 View YouTube", price: "Rp45.000" },
+    { name: "WA Channel 500 Followers", price: "Rp28.000" },
+    { name: "1000 Like Facebook", price: "Rp22.000" },
+    { name: "1000 Followers Shopee", price: "Rp35.000" }
   ],
-  suntik: [
-    { name: "100 Followers IG", price: "4K" },
-    { name: "300 Followers IG", price: "11K" },
-    { name: "1000 Followers IG", price: "28K" },
-    { name: "1000 Like TikTok", price: "25K" },
-    { name: "500 Share TikTok", price: "12K" },
-    { name: "1000 SUB YouTube", price: "102K" },
-    { name: "WA Channel 500 Followers", price: "28K" },
+  premium: [
+    { name: "Alight Motion 1 Thn Share", price: "Rp8.000" },
+    { name: "Alight Motion 1 Thn Priv", price: "Rp15.000" },
+    { name: "CapCut Premium 1 Bulan", price: "Rp12.000" },
+    { name: "CapCut Premium 1 Thn", price: "Rp20.000" },
+    { name: "Spotify Premium 2 Bln", price: "Rp30.000" },
+    { name: "Netflix Premium 1 Bln", price: "Rp26.000" },
+    { name: "YouTube Premium 1 Bln", price: "Rp7.000" }
+  ],
+  sewa_wa: [
+    { name: "Sewa WA 5 Menit", price: "Rp10.000" },
+    { name: "Sewa WA 30 Menit", price: "Rp60.000" },
+    { name: "Sewa WA 1 Jam", price: "Rp150.000" },
+    { name: "Sewa WA 1 Hari", price: "Rp2.500.000" }
+  ],
+  nokos: [
+    { name: "Nokos Indo New", price: "Rp5.000" },
+    { name: "Nokos Indo Old", price: "Rp8.000" }
   ],
   banned: [
-    { name: "Banned WA Permanen Tinjau", price: "25K" },
-    { name: "Banned WA Permanen Hard", price: "35K" }
+    { name: "Banned WA Tinjau", price: "Rp25.000" },
+    { name: "Banned WA Hard", price: "Rp35.000" }
   ],
   topup: [
-    { name: "Comming Soon" }
+    { name: "MLBB Diamonds", price: "Cek Admin" },
+    { name: "Free Fire Diamonds", price: "Cek Admin" },
+    { name: "PUBG Mobile UC", price: "Cek Admin" }
   ]
 };
 
-function showPage(type) {
-  const data = dataMap[type];
-  currentPage = 1;
-  renderData(type, data);
-}
+const categories = Object.keys(allProducts);
 
-function renderData(type, data) {
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-  const start = (currentPage - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-  const paginated = data.slice(start, end);
-  let html = `<h2 class="category">${type.toUpperCase()}</h2>`;
-  paginated.forEach(item => {
-    html += `
-      <div class="product">
-        <div class="product-title">${item.name}</div>
-        <div class="price">💸 ${item.price}</div>
-        <a href="https://t.me/nathanlpg" target="_blank">
-          <button class="buy-btn">Beli Sekarang</button>
-        </a>
-      </div>
-    `;
+function init() {
+  const slider = document.getElementById('product-slider');
+  const tabs = document.getElementById('tab-container');
+  
+  categories.forEach((cat, idx) => {
+    const tab = document.createElement('div');
+    tab.className = `nav-tab ${idx === 0 ? 'active' : ''}`;
+    tab.id = `tab-${idx}`;
+    tab.innerText = cat.replace('_', ' ');
+    tab.onclick = () => goToPage(idx);
+    tabs.appendChild(tab);
+
+    const page = document.createElement('div');
+    page.className = 'product-page';
+    let content = `<div style="padding:20px; color:var(--hologram-blue); font-family:'Orbitron'; font-size:0.7rem;">// ${cat.toUpperCase()}</div>`;
+    
+    allProducts[cat].forEach(p => {
+      content += `
+        <div class="item-card" onclick="openSheet('${p.name}', '${p.price}', '${cat}')">
+          <div class="item-icon">${p.name.charAt(0)}</div>
+          <div class="item-info">
+            <span class="item-name">${p.name}</span>
+            <span class="item-price">${p.price}</span>
+          </div>
+        </div>
+      `;
+    });
+    page.innerHTML = content;
+    slider.appendChild(page);
   });
-  html += '<div class="pagination">';
-  for (let i = 1; i <= totalPages; i++) {
-    html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="gotoPage('${type}', ${i})">${i}</button>`;
-  }
-  html += '</div>';
-  content.innerHTML = html;
+
+  slider.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+  slider.addEventListener('touchend', e => {
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0 && currentIndex < categories.length - 1) goToPage(currentIndex + 1);
+      else if (diff < 0 && currentIndex > 0) goToPage(currentIndex - 1);
+    }
+  });
 }
 
-function gotoPage(type, page) {
-  currentPage = page;
-  renderData(type, dataMap[type]);
+function goToPage(index) {
+  currentIndex = index;
+  const slider = document.getElementById('product-slider');
+  slider.style.transform = `translateX(-${index * 100}%)`;
+  
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  const activeTab = document.getElementById(`tab-${index}`);
+  activeTab.classList.add('active');
+  activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center' });
 }
 
-  </script>
+function openApp() {
+  document.getElementById('splash').style.opacity = '0';
+  setTimeout(() => {
+    document.getElementById('splash').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    setTimeout(() => document.getElementById('app').style.opacity = '1', 50);
+  }, 400);
+}
+
+function openSheet(n, p, cat) {
+  document.getElementById('m-name').innerText = n + " (" + p + ")";
+  const descBox = document.getElementById('m-desc-box');
+  descBox.innerHTML = `<p style="color:#8696a0; font-size:0.85rem;">Klik tombol di bawah untuk pesan ke Admin.</p>`;
+  
+  document.getElementById('m-wa').href = `https://wa.me/${waNo}?text=Halo+Nael,+saya+mau+order+${encodeURIComponent(n)}`;
+  document.getElementById('detail-sheet').classList.add('active');
+}
+
+function closeSheet() { document.getElementById('detail-sheet').classList.remove('active'); }
+
+window.onload = init;
+</script>
 </body>
 </html>
